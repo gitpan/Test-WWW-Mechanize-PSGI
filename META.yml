@@ -1,6 +1,6 @@
 --- #YAML:1.0
 name:               Test-WWW-Mechanize-PSGI
-version:            0.33
+version:            0.34
 abstract:           Test PSGI programs using WWW::Mechanize
 author:
     - Leon Brocard <acme@astray.com>

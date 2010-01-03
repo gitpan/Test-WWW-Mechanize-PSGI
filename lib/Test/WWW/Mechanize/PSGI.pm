@@ -6,7 +6,7 @@ use HTTP::Message::PSGI;
 use Test::WWW::Mechanize;
 use Try::Tiny;
 use base 'Test::WWW::Mechanize';
-our $VERSION = '0.33';
+our $VERSION = '0.34';
 
 my $Test = Test::Builder->new();
 
@@ -45,8 +45,8 @@ sub _make_request {
         $response->content($_);
         $response->content_type('');
     };
-    $self->cookie_jar->extract_cookies($response) if $self->cookie_jar;
     $response->request($request);
+    $self->cookie_jar->extract_cookies($response) if $self->cookie_jar;
     return $response;
 }
 
@@ -108,7 +108,7 @@ functions for common web testing scenarios. For example:
   $mech->content_contains( "Andy Lester", "My name somewhere" );
   $mech->content_like( qr/(cpan|perl)\.org/, "Link to perl.org or CPAN" );
 
-An alternative to this module is L<PSGI::Test>.
+An alternative to this module is L<Plack::Test>.
 
 =head1 CONSTRUCTOR
 
