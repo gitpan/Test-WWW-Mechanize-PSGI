@@ -1,5 +1,14 @@
 Revision history for Perl module Test::WWW::Mechanize::PSGI:
 
+0.35 Wed Jan  6 14:39:59 GMT 2010
+    - override simple_request rather than _make_request, so mechanize
+      still handles redirect and other high level stuff for us (patch
+      by clkao)
+    - use prepare_request so default_headers are added properly. this
+      also makes the request_prepare and response_done hooks called,
+      so cookies jars are handled without the current hack (patch by
+      clkao)
+
 0.34 Sun Jan  3 12:02:29 GMT 2010
     - update the README to reflect the name
     - fix handling of cookies, patch by tokuhirom

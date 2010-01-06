@@ -6,7 +6,7 @@ use HTTP::Message::PSGI;
 use Test::WWW::Mechanize;
 use Try::Tiny;
 use base 'Test::WWW::Mechanize';
-our $VERSION = '0.34';
+our $VERSION = '0.35';
 
 my $Test = Test::Builder->new();
 
@@ -26,15 +26,14 @@ sub new {
     return $self;
 }
 
-sub _make_request {
+sub simple_request {
     my ( $self, $request ) = @_;
 
     my $uri = $request->uri;
     $uri->scheme('http')    unless defined $uri->scheme;
     $uri->host('localhost') unless defined $uri->host;
-    $self->cookie_jar->add_cookie_header($request) if $self->cookie_jar;
 
-    my $env = $request->to_psgi;
+    my $env = $self->prepare_request($request)->to_psgi;
     my $response;
     try {
         $response = HTTP::Response->from_psgi( $self->{app}->($env) );
@@ -46,7 +45,7 @@ sub _make_request {
         $response->content_type('');
     };
     $response->request($request);
-    $self->cookie_jar->extract_cookies($response) if $self->cookie_jar;
+    $self->run_handlers( "response_done", $response );
     return $response;
 }
 
